@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".menu_kt">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_v1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_h_row1_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_h_row2_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_h_row3_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="541dp" />
+
+
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Button 1"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/bmi_pt"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_row1_bottom"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/guideline_v1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 第一列右邊按鈕 (溫度轉換功能) -->
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Button 2"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/tmp_pt"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_row1_bottom"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_v1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 第二列左邊按鈕 (猜數字遊戲) -->
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Button 3"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/gus_pt"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_row2_bottom"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/guideline_v1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_h_row1_bottom" />
+
+    <!-- 第二列右邊按鈕 (井字遊戲) -->
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Button 4"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/tic_pt"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_row2_bottom"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_v1"
+        app:layout_constraintTop_toTopOf="@id/guideline_h_row1_bottom" />
+
+    <!-- 第三列左邊按鈕 (貪吃蛇遊戲) -->
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Button 5"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/snake_ph"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_row3_bottom"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/guideline_v1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_h_row2_bottom" />
+
+    <!-- 第三列右邊按鈕 (踩地雷遊戲) -->
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Button 6"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/mines_pt"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_row3_bottom"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_v1"
+        app:layout_constraintTop_toTopOf="@id/guideline_h_row2_bottom" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
