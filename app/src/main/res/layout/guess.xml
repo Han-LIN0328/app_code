@@ -6,158 +6,170 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:background="@color/game_background"
+    android:padding="20dp"
     tools:context=".guess_kt">
 
-    <!-- Title -->
+    <!-- Header -->
     <TextView
         android:id="@+id/indextitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/guess_title"
         android:textAlignment="center"
-        android:textColor="?attr/colorError"
-        android:textSize="24sp"
+        android:textColor="@color/gold"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/yourcurrentscope"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Current Range -->
-    <TextView
-        android:id="@+id/yourcurrentscope"
-        android:layout_width="wrap_content"
+    <!-- Info Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/infoCard"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/current_range_prompt"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/scope"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indextitle" />
+        android:layout_marginTop="30dp"
+        app:cardBackgroundColor="@color/game_surface"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/indextitle">
 
-    <TextView
-        android:id="@+id/scope"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/yourcurrentscope"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/yourcurrentscope"
-        tools:text="1 ~ 100" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-    <!-- Input Prompt and Field -->
-    <TextView
-        android:id="@+id/please"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/enter_number_prompt"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yourcurrentscope" />
+            <TextView
+                android:id="@+id/yourcurrentscope"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_range_prompt"
+                android:textColor="@color/game_accent"
+                android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/pleasein"
-        android:layout_width="0dp"
+            <TextView
+                android:id="@+id/scope"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="1 ~ 100" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="16dp"
+                android:background="#33FFFFFF" />
+
+            <TextView
+                android:id="@+id/hint_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/guess_count_prompt"
+                android:textColor="@color/game_accent"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/several"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="0" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Input Section -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:autofillHints="number"
-        android:ems="10"
+        android:layout_marginTop="30dp"
         android:hint="@string/enter_number_hint"
-        android:inputType="number"
-        android:textAlignment="center"
-        app:layout_constraintBaseline_toBaselineOf="@+id/please"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/please" />
+        android:textColorHint="@color/game_accent"
+        app:boxStrokeColor="@color/game_accent"
+        app:hintTextColor="@color/game_accent"
+        app:layout_constraintTop_toBottomOf="@id/infoCard">
 
-    <!-- Guess Count -->
-    <TextView
-        android:id="@+id/hint_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/guess_count_prompt"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pleasein" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/pleasein"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/several"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/hint_num"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/hint_num"
-        tools:text="5" />
-
-    <!-- Answer/Hint Display -->
+    <!-- Result Text -->
     <TextView
         android:id="@+id/showanswer"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:textAlignment="center"
+        android:textColor="@color/vivid_green"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hint_num"
-        tools:text="Too high!" />
-
-    <!-- Spacer to push buttons to the bottom -->
-    <View
-        android:id="@+id/spacer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/showanswer"
-        app:layout_constraintBottom_toTopOf="@+id/button2"/>
+        app:layout_constraintTop_toBottomOf="@id/inputLayout"
+        tools:text="太大了！" />
 
     <!-- Action Buttons -->
     <Button
         android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
         android:text="@string/execute_button"
-        app:layout_constraintBottom_toTopOf="@+id/button1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="18sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintTop_toBottomOf="@id/showanswer" />
 
-    <Button
-        android:id="@+id/button1"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/bottomButtons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/show_answer_button"
-        app:layout_constraintBottom_toTopOf="@+id/btnBackToMenu"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/button2">
 
-    <Button
-        android:id="@+id/button3"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/play_again_button"
-        app:layout_constraintBottom_toBottomOf="@+id/button1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button1" />
+        <Button
+            android:id="@+id/button1"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/show_answer_button"
+            android:textColor="@color/gold"
+            app:strokeColor="@color/gold" />
 
-    <!-- Back to Menu Button at the bottom -->
+        <Button
+            android:id="@+id/button3"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/play_again_button"
+            android:textColor="@color/game_accent"
+            app:strokeColor="@color/game_accent" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/btnBackToMenu"
-        style="?attr/borderlessButtonStyle"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_to_menu_button"
+        android:textColor="#88FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

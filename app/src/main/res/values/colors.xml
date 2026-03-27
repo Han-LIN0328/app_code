@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 基礎色 -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="mine_cell_background">#D3D3D3</color>
-    <color name="mine_cell_revealed">#FFFFFF</color>
-    <color name="mine_cell_bomb_background">#FF0000</color>
-    <color name="mine_cell_text_1">#0000FF</color>
-    <color name="mine_cell_text_2">#008000</color>
-    <color name="mine_cell_text_3">#FF0000</color>
-    <color name="mine_cell_text_4">#000080</color>
-    <color name="mine_cell_text_5">#800000</color>
-    <color name="mine_cell_text_6">#008080</color>
+    
+    <!-- 遊戲主題色系 -->
+    <color name="game_primary">#6200EE</color>
+    <color name="game_primary_variant">#3700B3</color>
+    <color name="game_accent">#03DAC5</color>
+    <color name="game_background">#121212</color> <!-- 深色背景更像遊戲 -->
+    <color name="game_surface">#1E1E1E</color>
+    
+    <!-- 功能色彩 -->
+    <color name="gold">#FFD700</color>
+    <color name="vivid_red">#FF1744</color>
+    <color name="vivid_green">#00E676</color>
+    <color name="vivid_blue">#2979FF</color>
+    
+    <!-- 踩地雷專用色 -->
+    <color name="mine_cell_background">#333333</color>
+    <color name="mine_cell_revealed">#444444</color>
+    <color name="mine_cell_bomb_background">#B00020</color>
+    <color name="win_message_background">#1B5E20</color>
+    <color name="win_message_text">#FFFFFF</color>
+    
+    <!-- 踩地雷數字顏色 -->
+    <color name="mine_cell_text_1">#2979FF</color>
+    <color name="mine_cell_text_2">#00E676</color>
+    <color name="mine_cell_text_3">#FF1744</color>
+    <color name="mine_cell_text_4">#311B92</color>
+    <color name="mine_cell_text_5">#BF360C</color>
+    <color name="mine_cell_text_6">#006064</color>
     <color name="mine_cell_text_7">#000000</color>
-    <color name="mine_cell_text_8">#808080</color>
+    <color name="mine_cell_text_8">#757575</color>
+    
+    <!-- 貪吃蛇專用色 -->
     <color name="snake_background">#000000</color>
-    <color name="snake_color">#00FF00</color>
-    <color name="snake_food_color">#FF0000</color>
+    <color name="snake_color">#00E676</color>
+    <color name="snake_food_color">#FF1744</color>
 </resources>

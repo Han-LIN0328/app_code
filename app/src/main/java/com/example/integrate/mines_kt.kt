@@ -1,10 +1,12 @@
 package com.example.integrate
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Gravity
-import android.view.MotionEvent
+import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.button.MaterialButton
 import kotlin.random.Random
 
 // 踩地雷遊戲 Activity
@@ -19,11 +22,12 @@ class mines_kt : AppCompatActivity() {
 
     private lateinit var gridLayout: GridLayout          // 棋盤 GridLayout
     private lateinit var tvWinMessage: TextView          // 贏的訊息 TextView
+    private lateinit var messageCard: View               // 訊息卡片容器
 
-    private val rows = 10                                // 棋盤列數
-    private val cols = 8                                 // 棋盤行數
-    private var mineCount = 10                           // 地雷數量（隨機 10~20）
-    private val cells = mutableListOf<Button>()         // 存放每個格子的 Button
+    private val rows = 14                                // 增加列數到 14
+    private val cols = 8                                 // 棋盤行數保持 8
+    private var mineCount = 15                           // 稍微增加地雷數量
+    private val cells = mutableListOf<MaterialButton>()  // 存放每個格子的 MaterialButton
     private lateinit var mines: BooleanArray            // true 表示該格是地雷
     private lateinit var neighborMineCount: IntArray    // 記錄每格周圍地雷數量
     private var isGameOver = false
@@ -32,84 +36,89 @@ class mines_kt : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mines)
 
-        // 適配邊緣到系統欄（Edge to Edge）
+        // 適配系統欄
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // 返回選單按鈕
-        val backBtn = findViewById<Button>(R.id.btnBackToMenu)
-        backBtn.setOnClickListener {
-            finish() // 結束此 Activity，返回上一頁
+        // 返回選單
+        findViewById<Button>(R.id.btnBackToMenu).setOnClickListener {
+            finish()
         }
 
-        // 初始化棋盤與訊息顯示
         gridLayout = findViewById(R.id.gridLayout)
         tvWinMessage = findViewById(R.id.tvWinMessage)
+        messageCard = findViewById(R.id.messageCard)
 
-        // 重新開始按鈕
         findViewById<Button>(R.id.btnRestart).setOnClickListener {
             restartGame()
         }
 
-        // 啟動遊戲
         restartGame()
     }
 
-    // 重新開始遊戲
     private fun restartGame() {
         isGameOver = false
-        tvWinMessage.visibility = android.view.View.GONE          // 隱藏勝利訊息
-        mineCount = (10..20).random()                             // 隨機設定地雷數量
-        mines = BooleanArray(rows * cols) { false }              // 初始化地雷位置
-        neighborMineCount = IntArray(rows * cols) { 0 }          // 初始化周圍地雷計數
-        createBoard()                                            // 建立棋盤格子
-        placeMines()                                             // 隨機放置地雷
-        calculateNeighborMineCount()                              // 計算每格周圍地雷數量
+        messageCard.visibility = View.GONE
+        mineCount = (15..25).random() 
+        mines = BooleanArray(rows * cols) { false }
+        neighborMineCount = IntArray(rows * cols) { 0 }
+        createBoard()
+        placeMines()
+        calculateNeighborMineCount()
     }
 
-    // 建立棋盤格子
     @SuppressLint("ClickableViewAccessibility")
     private fun createBoard() {
-        gridLayout.removeAllViews()    // 清空之前的棋盤
+        gridLayout.removeAllViews()
         cells.clear()
 
         for (i in 0 until rows * cols) {
-            val cell = Button(this).apply {
+            val cell = MaterialButton(this).apply {
                 layoutParams = GridLayout.LayoutParams().apply {
                     width = 0
                     height = 0
                     rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
                     columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                    setMargins(1, 1, 1, 1)
+                    setMargins(1, 1, 1, 1) // 邊距縮小，讓 3D 效果更連貫
                 }
-                setBackgroundColor(ContextCompat.getColor(this@mines_kt, R.color.mine_cell_background))   // 預設背景色
+                
+                // 移除 MaterialButton 的預設內距與邊距
+                setPadding(0, 0, 0, 0)
+                minHeight = 0
+                minWidth = 0
+                iconPadding = 0
+                insetTop = 0
+                insetBottom = 0
+                cornerRadius = 0 // 踩地雷格子通常是方形的，更有凸起感
+                
+                // 使用凸起感的背景
+                background = ContextCompat.getDrawable(this@mines_kt, R.drawable.mine_cell_raised)
+                backgroundTintList = null // 確保不被預設顏色覆蓋
+                
+                // 移除原有的邊框設定，因為背景已經包含了陰影
+                strokeWidth = 0
+                
                 gravity = Gravity.CENTER
-                textSize = 12f
+                textSize = 14f 
+                typeface = Typeface.DEFAULT_BOLD
                 text = ""
 
-                // 左鍵點擊/觸控點擊 → 開啟格子
                 setOnClickListener {
                     if (text.toString() != getString(R.string.flag) && !isGameOver) {
                         openCell(i)
                     }
                 }
 
-                // 長按 → 插旗 (for touch)
                 setOnLongClickListener {
-                    if (isEnabled && !isGameOver) {
-                        text = if (text == getString(R.string.flag)) "" else getString(R.string.flag)
-                    }
+                    toggleFlag(this)
                     true
                 }
 
-                // 右鍵點擊 → 插旗 (for mouse)
                 setOnContextClickListener {
-                    if (isEnabled && !isGameOver) {
-                        text = if (text == getString(R.string.flag)) "" else getString(R.string.flag)
-                    }
+                    toggleFlag(this)
                     true
                 }
             }
@@ -119,12 +128,17 @@ class mines_kt : AppCompatActivity() {
         }
     }
 
-    // 隨機放置地雷
+    private fun toggleFlag(cell: MaterialButton) {
+        if (cell.isEnabled && !isGameOver) {
+            cell.text = if (cell.text == getString(R.string.flag)) "" else getString(R.string.flag)
+            cell.setTextColor(if (cell.text == getString(R.string.flag)) Color.YELLOW else Color.WHITE)
+        }
+    }
+
     private fun placeMines() {
         var placed = 0
-        val total = rows * cols
         while (placed < mineCount) {
-            val pos = Random.nextInt(total)
+            val pos = Random.nextInt(rows * cols)
             if (!mines[pos]) {
                 mines[pos] = true
                 placed++
@@ -132,93 +146,77 @@ class mines_kt : AppCompatActivity() {
         }
     }
 
-    // 計算每格周圍地雷數量
     private fun calculateNeighborMineCount() {
         for (pos in mines.indices) {
-            if (mines[pos]) continue  // 如果是地雷，跳過
-            val neighbors = getNeighbors(pos)
-            var count = 0
-            for (n in neighbors) {
-                if (mines[n]) count++
-            }
-            neighborMineCount[pos] = count
+            if (mines[pos]) continue
+            neighborMineCount[pos] = getNeighbors(pos).count { mines[it] }
         }
     }
 
-    // 開啟格子
     private fun openCell(pos: Int) {
+        if (pos !in cells.indices) return
         val cell = cells[pos]
         if (!cell.isEnabled) return
 
+        // 開啟後變為平整背景
+        cell.background = ContextCompat.getDrawable(this, R.drawable.mine_cell_revealed_bg)
+        cell.backgroundTintList = null
+        cell.isEnabled = false
+
         if (mines[pos]) {
-            // 點到地雷 → 顯示炸彈
             cell.text = getString(R.string.bomb)
-            cell.textSize = 28f
-            cell.setTextColor(ContextCompat.getColor(this, R.color.black))
             cell.setBackgroundColor(ContextCompat.getColor(this, R.color.mine_cell_bomb_background))
-            cell.isEnabled = false
             gameOver(false)
         } else {
-            // 顯示周圍地雷數量
             val count = neighborMineCount[pos]
             cell.text = if (count == 0) "" else count.toString()
-            cell.textSize = 18f
-            cell.setTextColor(
-                ContextCompat.getColor(this, when (count) {
-                    1 -> R.color.mine_cell_text_1
-                    2 -> R.color.mine_cell_text_2
-                    3 -> R.color.mine_cell_text_3
-                    4 -> R.color.mine_cell_text_4
-                    5 -> R.color.mine_cell_text_5
-                    6 -> R.color.mine_cell_text_6
-                    7 -> R.color.mine_cell_text_7
-                    8 -> R.color.mine_cell_text_8
-                    else -> R.color.black
-                })
-            )
-            cell.isEnabled = false
-            cell.setBackgroundColor(ContextCompat.getColor(this, R.color.mine_cell_revealed))
+            cell.setTextColor(getMineTextColor(count))
 
-            // 如果周圍沒有地雷，自動打開周圍格子
             if (count == 0) {
-                val neighbors = getNeighbors(pos)
-                for (n in neighbors) {
-                    openCell(n)
-                }
+                getNeighbors(pos).forEach { openCell(it) }
             }
             checkWin()
         }
     }
 
-    // 檢查是否勝利
+    private fun getMineTextColor(count: Int): Int {
+        val colorRes = when (count) {
+            1 -> R.color.mine_cell_text_1
+            2 -> R.color.mine_cell_text_2
+            3 -> R.color.mine_cell_text_3
+            4 -> R.color.mine_cell_text_4
+            5 -> R.color.mine_cell_text_5
+            6 -> R.color.mine_cell_text_6
+            7 -> R.color.mine_cell_text_7
+            8 -> R.color.mine_cell_text_8
+            else -> R.color.white
+        }
+        return ContextCompat.getColor(this, colorRes)
+    }
+
     private fun checkWin() {
-        if (isGameOver) return
         val hasWon = cells.withIndex().all { (index, cell) ->
             if (mines[index]) true else !cell.isEnabled
         }
-
-        if (hasWon) {
-            gameOver(true)
-        }
+        if (hasWon) gameOver(true)
     }
 
-    // 遊戲結束
     private fun gameOver(isWin: Boolean) {
         isGameOver = true
-        for ((i, cell) in cells.withIndex()) {
+        cells.forEachIndexed { i, cell ->
             cell.isEnabled = false
-            if (mines[i] && cell.text.toString() != getString(R.string.bomb)) {
+            if (mines[i] && cell.text != getString(R.string.flag)) {
                 cell.text = getString(R.string.bomb)
-                cell.textSize = 28f
-                cell.setTextColor(ContextCompat.getColor(this, R.color.black))
-                cell.setBackgroundColor(ContextCompat.getColor(this, R.color.mine_cell_bomb_background))
+                if (!isWin) {
+                    cell.background = null
+                    cell.setBackgroundColor(ContextCompat.getColor(this, R.color.mine_cell_bomb_background))
+                }
             }
         }
-        tvWinMessage.text = if (isWin) getString(R.string.congratulations_you_won) else getString(R.string.game_over_you_hit_a_mine)
-        tvWinMessage.visibility = android.view.View.VISIBLE
+        tvWinMessage.text = if (isWin) getString(R.string.congratulations_you_won) else "遊戲結束！你踩到地雷了"
+        messageCard.visibility = View.VISIBLE
     }
 
-    // 取得指定格子的鄰居位置
     private fun getNeighbors(pos: Int): List<Int> {
         val neighbors = mutableListOf<Int>()
         val r = pos / cols
@@ -228,9 +226,7 @@ class mines_kt : AppCompatActivity() {
                 if (dr == 0 && dc == 0) continue
                 val nr = r + dr
                 val nc = c + dc
-                if (nr in 0 until rows && nc in 0 until cols) {
-                    neighbors.add(nr * cols + nc)
-                }
+                if (nr in 0 until rows && nc in 0 until cols) neighbors.add(nr * cols + nc)
             }
         }
         return neighbors

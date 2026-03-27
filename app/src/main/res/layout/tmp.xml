@@ -6,94 +6,128 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:background="@color/game_background"
+    android:padding="20dp"
     tools:context=".tmp_kt">
 
-    <!-- Input Group -->
+    <!-- Header Title -->
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/headerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/current_temperature_prompt"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/Now"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/Now"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:autofillHints="temperature"
-        android:ems="10"
-        android:hint="@string/enter_current_temperature"
-        android:inputType="numberSigned|numberDecimal"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView4" />
-
-    <!-- Output Group -->
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/converted_temperature_prompt"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Now" />
-
-    <TextView
-        android:id="@+id/After_conversion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textAlignment="center"
-        android:textSize="24sp"
+        android:layout_marginTop="20dp"
+        android:text="專業溫度轉換"
+        android:textColor="@color/gold"
+        android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        tools:text="77.0 °F" />
-
-    <!-- Conversion Buttons -->
-    <Button
-        android:id="@+id/CtoF"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/celsius_to_fahrenheit_button"
-        app:layout_constraintEnd_toStartOf="@+id/FtoC"
-        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <Button
-        android:id="@+id/FtoC"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/fahrenheit_to_celsius_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/CtoF"
-        app:layout_constraintTop_toTopOf="@+id/CtoF" />
-
-    <!-- Vertical Positioning for the main block -->
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/conversion_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="textView4,Now,textView5,After_conversion,CtoF,FtoC"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Back Button at the bottom -->
+    <!-- Main Converter Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/convertCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:cardBackgroundColor="@color/game_surface"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:layout_constraintTop_toBottomOf="@id/headerTitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Input Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_temperature_prompt"
+                android:textColor="@color/game_accent"
+                android:textSize="16sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_temp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/enter_current_temperature"
+                android:textColorHint="#66FFFFFF"
+                app:boxStrokeColor="@color/game_accent"
+                app:hintTextColor="@color/game_accent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Now"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned|numberDecimal"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Result Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/converted_temperature_prompt"
+                android:textColor="@color/game_accent"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/After_conversion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="#1AFFFFFF"
+                android:padding="16dp"
+                android:textAlignment="center"
+                android:textColor="@color/gold"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                tools:text="32.00 °F" />
+
+            <!-- Buttons Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/CtoF"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/celsius_to_fahrenheit_button"
+                    app:cornerRadius="12dp" />
+
+                <Button
+                    android:id="@+id/FtoC"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/fahrenheit_to_celsius_button"
+                    app:cornerRadius="12dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Back Button -->
     <Button
         android:id="@+id/btnBackToMenu"
-        style="?attr/borderlessButtonStyle"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_to_menu_button"
+        android:textColor="#88FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

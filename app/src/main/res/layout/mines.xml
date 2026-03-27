@@ -6,61 +6,103 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/game_background"
     android:padding="16dp"
     tools:context=".mines_kt">
 
-    <!-- Top Action Buttons -->
-    <Button
-        android:id="@+id/btnBackToMenu"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="0dp"
+    <!-- Header / Control Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/controlCard"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/back_to_menu_button"
-        app:layout_constraintEnd_toStartOf="@+id/btnRestart"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:cardBackgroundColor="@color/game_surface"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btnRestart"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/play_again_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnBackToMenu"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-    <!-- Win/Loss Message -->
-    <TextView
-        android:id="@+id/tvWinMessage"
-        android:layout_width="0dp"
+            <Button
+                android:id="@+id/btnBackToMenu"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/back_to_menu_button"
+                android:textColor="#BBFFFFFF" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="8dp"
+                android:background="#33FFFFFF" />
+
+            <Button
+                android:id="@+id/btnRestart"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/play_again_button"
+                android:textColor="@color/game_accent" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Win/Loss Notification Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/messageCard"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="#CCFFCC"
-        android:padding="16dp"
-        android:textAlignment="center"
-        android:textColor="#009900"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:layout_marginTop="12dp"
         android:visibility="gone"
+        app:cardBackgroundColor="@color/win_message_background"
+        app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRestart"
-        tools:text="Congratulations! You won! 🎉" />
+        app:layout_constraintTop_toBottomOf="@id/controlCard"
+        tools:visibility="visible">
 
-    <!-- Game Board Container -->
-    <GridLayout
-        android:id="@+id/gridLayout"
+        <TextView
+            android:id="@+id/tvWinMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp"
+            android:text="@string/minesweeper_win_message"
+            android:textColor="@color/win_message_text"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Mine Board Area -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/boardCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:columnCount="8" 
-        android:rowCount="10"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="#222222"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="W,8:10"
+        app:layout_constraintDimensionRatio="8:14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWinMessage" />
+        app:layout_constraintTop_toBottomOf="@+id/messageCard">
+
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:columnCount="8"
+            android:rowCount="14" />
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

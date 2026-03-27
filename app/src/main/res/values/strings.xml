@@ -64,8 +64,6 @@
     <string name="bmi_result_format">BMI: %.2f\n結果：%s</string>
     <string name="data_error">資料有誤，請輸入完整資料</string>
     <string name="login_title">會員登入</string>
-
-    <!-- Strings for guess.xml -->
     <string name="guess_title">猜一個範圍在1~100的數字</string>
     <string name="enter_number_prompt">請輸入數字:</string>
     <string name="enter_number_hint">請輸入</string>
@@ -73,5 +71,6 @@
     <string name="execute_button">執行</string>
     <string name="guess_count_prompt">猜的次數:</string>
     <string name="show_answer_button">公布答案</string>
-
+    <string name="menu_main_title">多元遊藝場</string>
+    <string name="menu_sub_title">INTEGRATED ARCADE</string>
 </resources>
