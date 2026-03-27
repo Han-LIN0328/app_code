@@ -1,13 +1,15 @@
 package com.example.integrate
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
+import android.view.MotionEvent
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlin.random.Random
@@ -24,6 +26,7 @@ class mines_kt : AppCompatActivity() {
     private val cells = mutableListOf<Button>()         // 存放每個格子的 Button
     private lateinit var mines: BooleanArray            // true 表示該格是地雷
     private lateinit var neighborMineCount: IntArray    // 記錄每格周圍地雷數量
+    private var isGameOver = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +60,7 @@ class mines_kt : AppCompatActivity() {
 
     // 重新開始遊戲
     private fun restartGame() {
+        isGameOver = false
         tvWinMessage.visibility = android.view.View.GONE          // 隱藏勝利訊息
         mineCount = (10..20).random()                             // 隨機設定地雷數量
         mines = BooleanArray(rows * cols) { false }              // 初始化地雷位置
@@ -67,6 +71,7 @@ class mines_kt : AppCompatActivity() {
     }
 
     // 建立棋盤格子
+    @SuppressLint("ClickableViewAccessibility")
     private fun createBoard() {
         gridLayout.removeAllViews()    // 清空之前的棋盤
         cells.clear()
@@ -80,21 +85,31 @@ class mines_kt : AppCompatActivity() {
                     columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
                     setMargins(1, 1, 1, 1)
                 }
-                setBackgroundColor(Color.LTGRAY)   // 預設背景色
+                setBackgroundColor(ContextCompat.getColor(this@mines_kt, R.color.mine_cell_background))   // 預設背景色
                 gravity = Gravity.CENTER
                 textSize = 12f
                 text = ""
 
-                // 點擊格子
+                // 左鍵點擊/觸控點擊 → 開啟格子
                 setOnClickListener {
-                    if (text != "🚩") {   // 如果不是旗子
-                        openCell(i)       // 開啟格子
+                    if (text.toString() != getString(R.string.flag) && !isGameOver) {
+                        openCell(i)
                     }
                 }
 
-                // 長按格子 → 插旗或取消旗子
+                // 長按 → 插旗 (for touch)
                 setOnLongClickListener {
-                    text = if (text == "🚩") "" else "🚩"
+                    if (isEnabled && !isGameOver) {
+                        text = if (text == getString(R.string.flag)) "" else getString(R.string.flag)
+                    }
+                    true
+                }
+
+                // 右鍵點擊 → 插旗 (for mouse)
+                setOnContextClickListener {
+                    if (isEnabled && !isGameOver) {
+                        text = if (text == getString(R.string.flag)) "" else getString(R.string.flag)
+                    }
                     true
                 }
             }
@@ -137,32 +152,32 @@ class mines_kt : AppCompatActivity() {
 
         if (mines[pos]) {
             // 點到地雷 → 顯示炸彈
-            cell.text = "💣"
+            cell.text = getString(R.string.bomb)
             cell.textSize = 28f
-            cell.setTextColor(Color.BLACK)
-            cell.setBackgroundColor(Color.RED)
+            cell.setTextColor(ContextCompat.getColor(this, R.color.black))
+            cell.setBackgroundColor(ContextCompat.getColor(this, R.color.mine_cell_bomb_background))
             cell.isEnabled = false
-            gameOver()
+            gameOver(false)
         } else {
             // 顯示周圍地雷數量
             val count = neighborMineCount[pos]
             cell.text = if (count == 0) "" else count.toString()
             cell.textSize = 18f
             cell.setTextColor(
-                when (count) {
-                    1 -> Color.BLUE
-                    2 -> Color.GREEN
-                    3 -> Color.RED
-                    4 -> Color.parseColor("#000080")
-                    5 -> Color.parseColor("#800000")
-                    6 -> Color.parseColor("#008080")
-                    7 -> Color.BLACK
-                    8 -> Color.GRAY
-                    else -> Color.BLACK
-                }
+                ContextCompat.getColor(this, when (count) {
+                    1 -> R.color.mine_cell_text_1
+                    2 -> R.color.mine_cell_text_2
+                    3 -> R.color.mine_cell_text_3
+                    4 -> R.color.mine_cell_text_4
+                    5 -> R.color.mine_cell_text_5
+                    6 -> R.color.mine_cell_text_6
+                    7 -> R.color.mine_cell_text_7
+                    8 -> R.color.mine_cell_text_8
+                    else -> R.color.black
+                })
             )
             cell.isEnabled = false
-            cell.setBackgroundColor(Color.WHITE)
+            cell.setBackgroundColor(ContextCompat.getColor(this, R.color.mine_cell_revealed))
 
             // 如果周圍沒有地雷，自動打開周圍格子
             if (count == 0) {
@@ -177,31 +192,30 @@ class mines_kt : AppCompatActivity() {
 
     // 檢查是否勝利
     private fun checkWin() {
+        if (isGameOver) return
         val hasWon = cells.withIndex().all { (index, cell) ->
             if (mines[index]) true else !cell.isEnabled
         }
 
         if (hasWon) {
-            // 禁用所有格子
-            for (cell in cells) cell.isEnabled = false
-
-            tvWinMessage.visibility = android.view.View.VISIBLE
-            Toast.makeText(this, "恭喜你贏了！🎉", Toast.LENGTH_LONG).show()
+            gameOver(true)
         }
     }
 
     // 遊戲結束
-    private fun gameOver() {
+    private fun gameOver(isWin: Boolean) {
+        isGameOver = true
         for ((i, cell) in cells.withIndex()) {
             cell.isEnabled = false
-            if (mines[i] && cell.text != "💣") {
-                cell.text = "💣"
+            if (mines[i] && cell.text.toString() != getString(R.string.bomb)) {
+                cell.text = getString(R.string.bomb)
                 cell.textSize = 28f
-                cell.setTextColor(Color.BLACK)
-                cell.setBackgroundColor(Color.RED)
+                cell.setTextColor(ContextCompat.getColor(this, R.color.black))
+                cell.setBackgroundColor(ContextCompat.getColor(this, R.color.mine_cell_bomb_background))
             }
         }
-        Toast.makeText(this, "遊戲結束！你踩到地雷了", Toast.LENGTH_LONG).show()
+        tvWinMessage.text = if (isWin) getString(R.string.congratulations_you_won) else getString(R.string.game_over_you_hit_a_mine)
+        tvWinMessage.visibility = android.view.View.VISIBLE
     }
 
     // 取得指定格子的鄰居位置

@@ -49,25 +49,39 @@ class tmp_kt : AppCompatActivity() {
 
         // 攝氏轉華氏按鈕事件
         celsiusToFahrenheitButton.setOnClickListener {
-            val celsiusText = inputTemperature.text.toString()
-            if (celsiusText.isNotEmpty()) {
-                val celsius = celsiusText.toDouble() // 取得攝氏數值
-                val fahrenheit = celsius * 9 / 5 + 32 // 計算華氏
-                outputTemperature.text = String.format("%.2f °F", fahrenheit) // 顯示結果
+            val inputText = inputTemperature.text.toString()
+            if (inputText.isNotEmpty()) {
+                val celsius = inputText.toDoubleOrNull()
+                if (celsius != null) {
+                    val fahrenheit = celsius * 9 / 5 + 32 // 計算華氏
+                    outputTemperature.text = getString(R.string.fahrenheit_format, fahrenheit) // 顯示結果
+                    inputTemperature.error = null // 清除錯誤提示
+                } else {
+                    outputTemperature.text = ""
+                    inputTemperature.error = getString(R.string.invalid_input) // 顯示錯誤提示
+                }
             } else {
                 outputTemperature.text = "" // 若輸入空白則清空結果
+                inputTemperature.error = null // 清除錯誤提示
             }
         }
 
         // 華氏轉攝氏按鈕事件
         fahrenheitToCelsiusButton.setOnClickListener {
-            val fahrenheitText = inputTemperature.text.toString()
-            if (fahrenheitText.isNotEmpty()) {
-                val fahrenheit = fahrenheitText.toDouble() // 取得華氏數值
-                val celsius = (fahrenheit - 32) * 5 / 9 // 計算攝氏
-                outputTemperature.text = String.format("%.2f °C", celsius) // 顯示結果
+            val inputText = inputTemperature.text.toString()
+            if (inputText.isNotEmpty()) {
+                val fahrenheit = inputText.toDoubleOrNull()
+                if (fahrenheit != null) {
+                    val celsius = (fahrenheit - 32) * 5 / 9 // 計算攝氏
+                    outputTemperature.text = getString(R.string.celsius_format, celsius) // 顯示結果
+                    inputTemperature.error = null // 清除錯誤提示
+                } else {
+                    outputTemperature.text = ""
+                    inputTemperature.error = getString(R.string.invalid_input) // 顯示錯誤提示
+                }
             } else {
                 outputTemperature.text = "" // 若輸入空白則清空結果
+                inputTemperature.error = null // 清除錯誤提示
             }
         }
 

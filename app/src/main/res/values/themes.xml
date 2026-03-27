@@ -6,4 +6,27 @@
     </style>
 
     <style name="Theme.Integrate" parent="Base.Theme.Integrate" />
+
+    <!-- Style for TicTacToe buttons -->
+    <style name="Widget.App.TicTacToeButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">48sp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <!-- Style for menu screen ImageButtons -->
+    <style name="Widget.App.MenuImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <!-- Style for text below menu screen buttons -->
+    <style name="Widget.App.MenuButtonText" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAppearance">?attr/textAppearanceCaption</item>
+    </style>
+
 </resources>

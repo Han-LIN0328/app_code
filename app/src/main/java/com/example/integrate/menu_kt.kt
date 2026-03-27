@@ -3,7 +3,6 @@ package com.example.integrate
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class menu_kt : AppCompatActivity() {
@@ -20,58 +19,24 @@ class menu_kt : AppCompatActivity() {
         val imageButton5: ImageButton = findViewById(R.id.imageButton5)
         val imageButton6: ImageButton = findViewById(R.id.imageButton6)
 
-        // 設定點擊事件 → 呼叫 handleButtonClick
+        // 設定點擊事件，直接跳轉到對應功能頁面
         imageButton1.setOnClickListener {
-            handleButtonClick("按鈕 1")
+            startActivity(Intent(this, cal_bmi_kt::class.java))  // BMI 計算頁
         }
         imageButton2.setOnClickListener {
-            handleButtonClick("按鈕 2")
+            startActivity(Intent(this, tmp_kt::class.java))       // 溫度轉換頁
         }
         imageButton3.setOnClickListener {
-            handleButtonClick("按鈕 3")
+            startActivity(Intent(this, guess_kt::class.java))     // 猜數字遊戲頁
         }
         imageButton4.setOnClickListener {
-            handleButtonClick("按鈕 4")
+            startActivity(Intent(this, tic_kt::class.java))       // 井字遊戲頁
         }
         imageButton5.setOnClickListener {
-            handleButtonClick("按鈕 5")
+            startActivity(Intent(this, snake_kt::class.java))     // 貪吃蛇遊戲頁
         }
         imageButton6.setOnClickListener {
-            handleButtonClick("按鈕 6")
-        }
-    }
-
-    // 處理按鈕點擊事件
-    private fun handleButtonClick(buttonName: String) {
-        // 顯示 Toast 提示哪個按鈕被點擊
-        Toast.makeText(this, "$buttonName 被點擊了！", Toast.LENGTH_SHORT).show()
-
-        // 根據按鈕名稱跳轉到對應功能頁面
-        when (buttonName) {
-            "按鈕 1" -> {
-                val intent = Intent(this, cal_bmi_kt::class.java)  // BMI 計算頁
-                startActivity(intent)
-            }
-            "按鈕 2" -> {
-                val intent = Intent(this, tmp_kt::class.java)       // 溫度轉換頁
-                startActivity(intent)
-            }
-            "按鈕 3" -> {
-                val intent = Intent(this, guess_kt::class.java)     // 猜數字遊戲頁
-                startActivity(intent)
-            }
-            "按鈕 4" -> {
-                val intent = Intent(this, tic_kt::class.java)       // 井字遊戲頁
-                startActivity(intent)
-            }
-            "按鈕 5" -> {
-                val intent = Intent(this, snake_kt::class.java)     // 貪吃蛇遊戲頁
-                startActivity(intent)
-            }
-            "按鈕 6" -> {
-                val intent = Intent(this, mines_kt::class.java)     // 踩地雷遊戲頁
-                startActivity(intent)
-            }
+            startActivity(Intent(this, mines_kt::class.java))     // 踩地雷遊戲頁
         }
     }
 }

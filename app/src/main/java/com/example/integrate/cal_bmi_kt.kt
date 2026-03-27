@@ -1,6 +1,7 @@
 package com.example.integrate
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -30,30 +31,44 @@ class cal_bmi_kt : AppCompatActivity() {
 
         // 計算按鈕點擊事件
         calculateButton.setOnClickListener {
+            // 清除先前的錯誤提示
+            heightInput.error = null
+            weightInput.error = null
+
             val heightStr = heightInput.text.toString()
             val weightStr = weightInput.text.toString()
 
-            if (heightStr.isNotEmpty() && weightStr.isNotEmpty()) {
+            val height = heightStr.toFloatOrNull()
+            val weight = weightStr.toFloatOrNull()
+
+            if (height != null && weight != null && height > 0 && weight > 0) {
                 // 將身高轉為公尺，計算 BMI
-                val height = heightStr.toFloat() / 100
-                val weight = weightStr.toFloat()
-                val bmi = weight / (height * height)
+                val heightInMeters = height / 100
+                val bmi = weight / (heightInMeters * heightInMeters)
 
                 // 判斷 BMI 分類
                 val result = when {
-                    bmi < 18.5 -> "過輕"
-                    bmi < 24 -> "正常"
-                    bmi < 27 -> "過重"
-                    bmi < 30 -> "輕度肥胖"
-                    bmi < 35 -> "中度肥胖"
-                    else -> "重度肥胖"
+                    bmi < 18.5 -> getString(R.string.bmi_underweight)
+                    bmi < 24 -> getString(R.string.bmi_normal)
+                    bmi < 27 -> getString(R.string.bmi_overweight)
+                    bmi < 30 -> getString(R.string.bmi_obese_mild)
+                    bmi < 35 -> getString(R.string.bmi_obese_moderate)
+                    else -> getString(R.string.bmi_obese_severe)
                 }
 
-                // 顯示結果
-                resultText.text = "BMI: %.2f\n結果：%s".format(bmi, result)
+                // 顯示結果並設為可見
+                resultText.text = getString(R.string.bmi_result_format, bmi, result)
+                resultText.visibility = View.VISIBLE
             } else {
-                // 欄位資料不完整
-                resultText.text = "資料有誤，請輸入完整資料"
+                // 欄位資料不完整或無效
+                if (heightStr.isEmpty()) {
+                    heightInput.error = getString(R.string.data_error)
+                }
+                if (weightStr.isEmpty()) {
+                    weightInput.error = getString(R.string.data_error)
+                }
+                resultText.text = ""
+                resultText.visibility = View.GONE
             }
         }
 

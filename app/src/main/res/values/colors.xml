@@ -2,4 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="mine_cell_background">#D3D3D3</color>
+    <color name="mine_cell_revealed">#FFFFFF</color>
+    <color name="mine_cell_bomb_background">#FF0000</color>
+    <color name="mine_cell_text_1">#0000FF</color>
+    <color name="mine_cell_text_2">#008000</color>
+    <color name="mine_cell_text_3">#FF0000</color>
+    <color name="mine_cell_text_4">#000080</color>
+    <color name="mine_cell_text_5">#800000</color>
+    <color name="mine_cell_text_6">#008080</color>
+    <color name="mine_cell_text_7">#000000</color>
+    <color name="mine_cell_text_8">#808080</color>
+    <color name="snake_background">#000000</color>
+    <color name="snake_color">#00FF00</color>
+    <color name="snake_food_color">#FF0000</color>
 </resources>

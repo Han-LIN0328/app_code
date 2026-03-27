@@ -10,10 +10,16 @@ import kotlin.random.Random
 
 class guess_kt : AppCompatActivity() {
     // 遊戲答案與狀態
-    private var answer = 0          // 正確答案
-    private var guessCount = 0      // 猜的次數
-    private var lowerBound = 1      // 最小範圍
-    private var upperBound = 100    // 最大範圍
+    private var answer = 0
+    private var guessCount = 0
+    private var lowerBound = 1
+    private var upperBound = 100
+
+    // 畫面元件
+    private lateinit var input: EditText
+    private lateinit var result: TextView
+    private lateinit var showAnswer: TextView
+    private lateinit var scope: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,71 +34,60 @@ class guess_kt : AppCompatActivity() {
         }
 
         // 取得畫面元件
-        val input = findViewById<EditText>(R.id.pleasein)       // 輸入框
-        val result = findViewById<TextView>(R.id.several)       // 顯示猜的次數
-        val showAnswer = findViewById<TextView>(R.id.showanswer) // 顯示提示或答案
-        val scope = findViewById<TextView>(R.id.scope)          // 顯示目前猜測範圍
+        input = findViewById(R.id.pleasein)
+        result = findViewById(R.id.several)
+        showAnswer = findViewById(R.id.showanswer)
+        scope = findViewById(R.id.scope)
 
-        val guessBtn = findViewById<Button>(R.id.button2)       // 執行猜測按鈕
-        val revealBtn = findViewById<Button>(R.id.button1)      // 公布答案按鈕
-        val resetBtn = findViewById<Button>(R.id.button3)       // 再來一局按鈕
-        val backBtn = findViewById<Button>(R.id.btnBackToMenu)  // 返回選單按鈕
+        val guessBtn = findViewById<Button>(R.id.button2)
+        val revealBtn = findViewById<Button>(R.id.button1)
+        val resetBtn = findViewById<Button>(R.id.button3)
+        val backBtn = findViewById<Button>(R.id.btnBackToMenu)
 
         // 返回上一頁
         backBtn.setOnClickListener {
             finish()
         }
 
-        // 初始化或重置遊戲
-        fun resetGame() {
-            answer = Random.nextInt(1, 101) // 生成 1~100 的答案
-            guessCount = 0
-            lowerBound = 1
-            upperBound = 100
-            input.text.clear()
-            result.text = ""
-            showAnswer.text = ""
-            scope.text = "你的目前範圍：$lowerBound ~ $upperBound"
-        }
-
         // 猜數字邏輯
         guessBtn.setOnClickListener {
             val guessText = input.text.toString()
             if (guessText.isEmpty()) {
-                Toast.makeText(this, "請輸入一個數字", Toast.LENGTH_SHORT).show()
+                input.error = getString(R.string.please_enter_a_number)
                 return@setOnClickListener
             }
 
             val guess = guessText.toIntOrNull()
             if (guess == null || guess !in lowerBound..upperBound) {
-                Toast.makeText(this, "請輸入 $lowerBound ~ $upperBound 之間的數字", Toast.LENGTH_SHORT).show()
+                input.error = getString(R.string.please_enter_a_number_in_range, lowerBound, upperBound)
                 return@setOnClickListener
             }
 
             guessCount++
-            result.text = "猜的次數：$guessCount"
+            result.text = getString(R.string.guess_count, guessCount)
 
             when {
                 guess == answer -> {
-                    showAnswer.text = "恭喜你猜對了！答案是 $answer"
+                    showAnswer.text = getString(R.string.congratulations_correct_answer, answer)
                 }
                 guess > answer -> {
                     upperBound = guess - 1
-                    showAnswer.text = "太大了！"
+                    showAnswer.text = getString(R.string.too_high)
                 }
                 else -> {
                     lowerBound = guess + 1
-                    showAnswer.text = "太小了！"
+                    showAnswer.text = getString(R.string.too_low)
                 }
             }
 
-            scope.text = "你的目前範圍：$lowerBound ~ $upperBound"
+            scope.text = getString(R.string.current_range, lowerBound, upperBound)
             input.text.clear()
+            input.error = null // 清除錯誤提示
         }
 
         // 公布答案
         revealBtn.setOnClickListener {
-            showAnswer.text = "正確答案是：$answer"
+            showAnswer.text = getString(R.string.correct_answer_is, answer)
         }
 
         // 重置遊戲
@@ -102,5 +97,18 @@ class guess_kt : AppCompatActivity() {
 
         // 初始化遊戲
         resetGame()
+    }
+
+    // 初始化或重置遊戲
+    private fun resetGame() {
+        answer = Random.nextInt(1, 101) // 生成 1~100 的答案
+        guessCount = 0
+        lowerBound = 1
+        upperBound = 100
+        input.text.clear()
+        input.error = null
+        result.text = ""
+        showAnswer.text = ""
+        scope.text = getString(R.string.current_range, lowerBound, upperBound)
     }
 }

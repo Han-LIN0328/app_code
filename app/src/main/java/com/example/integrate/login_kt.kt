@@ -12,18 +12,18 @@ import com.example.integrate.menu_kt
 class login_kt : AppCompatActivity() {
 
     // 定義登入畫面需要用到的 UI 元件
-    private lateinit var captchaImage: ImageView   // 驗證碼圖片
-    private lateinit var captchaInput: EditText    // 驗證碼輸入框
-    private lateinit var loginButton: Button       // 登入按鈕
-    private lateinit var accountInput: EditText    // 帳號輸入框
-    private lateinit var passwordInput: EditText   // 密碼輸入框
+    private lateinit var captchaImage: ImageView
+    private lateinit var captchaInput: EditText
+    private lateinit var loginButton: Button
+    private lateinit var accountInput: EditText
+    private lateinit var passwordInput: EditText
 
     // 當前驗證碼的文字
     private var currentCaptcha: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login)  // 載入 login.xml 介面
+        setContentView(R.layout.login)
 
         // 綁定 UI 元件
         captchaImage = findViewById(R.id.captchaImage)
@@ -42,27 +42,33 @@ class login_kt : AppCompatActivity() {
 
         // 點擊登入按鈕 → 驗證帳號、密碼、驗證碼
         loginButton.setOnClickListener {
+            // 清除之前的錯誤提示
+            captchaInput.error = null
+            accountInput.error = null
+            passwordInput.error = null
+
             val inputCaptcha = captchaInput.text.toString()
             val inputAccount = accountInput.text.toString()
             val inputPassword = passwordInput.text.toString()
 
-            // 預設正確帳號與密碼
-            val correctAccount = "user123"
-            val correctPassword = "pass123"
+            // 預設正確帳號與密碼 (注意：這在真實應用中是不安全的)
+            val correctAccount = "user"
+            val correctPassword = "pass"
 
             when {
                 // 驗證碼錯誤
                 !inputCaptcha.equals(currentCaptcha, ignoreCase = true) -> {
-                    Toast.makeText(this, "驗證碼錯誤", Toast.LENGTH_SHORT).show()
+                    captchaInput.error = getString(R.string.captcha_error)
                     generateAndSetCaptcha()
                 }
                 // 帳號或密碼錯誤
                 inputAccount != correctAccount || inputPassword != correctPassword -> {
-                    Toast.makeText(this, "帳號或密碼錯誤", Toast.LENGTH_SHORT).show()
+                    accountInput.error = getString(R.string.login_error)
+                    passwordInput.error = getString(R.string.login_error)
                 }
                 // 登入成功 → 進入選單頁面
                 else -> {
-                    Toast.makeText(this, "登入成功！", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, menu_kt::class.java)
                     startActivity(intent)
                     finish()

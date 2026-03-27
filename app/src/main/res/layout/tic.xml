@@ -6,157 +6,134 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".tic_kt">
 
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="248dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="248dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="248dp"
-        android:layout_marginTop="248dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="296dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="296dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="248dp"
-        android:layout_marginTop="296dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="344dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="344dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="248dp"
-        android:layout_marginTop="344dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
+    <!-- Title -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="48dp"
-        android:text="井字遊戲"
-        android:textSize="50dp"
+        android:text="@string/tic_tac_toe_game_title"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <Button
-        android:id="@+id/res"
-        android:layout_width="413dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="588dp"
-        android:text="再來一局"
-        android:textSize="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- 勝負或提示訊息 -->
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="249dp"
-        android:layout_height="113dp"
-        android:layout_marginStart="81dp"
-        android:layout_marginTop="442dp"
-        android:textSize="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <Switch
-        android:id="@+id/aa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="188dp"
-        android:text="現在圖案是圈"
-        android:textSize="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
+    <!-- Player Switch -->
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="140dp"
-        android:text="請選擇起手圖案:"
-        android:textSize="25dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/choose_starting_symbol_prompt"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/aa"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/aa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/current_symbol_is_circle"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView4" />
+
+    <!-- Game Board Aspect Ratio Box -->
+    <FrameLayout
+        android:id="@+id/board_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aa">
+
+        <!-- Game Board Guidelines -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_v1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.333" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_v2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.666" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.333" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.666" />
+
+        <!-- Game Board Buttons -->
+        <Button style="@style/Widget.App.TicTacToeButton" android:id="@+id/button1" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@+id/guideline_v1" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@+id/guideline_h1" />
+        <Button style="@style/Widget.App.TicTacToeButton" android:id="@+id/button2" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toEndOf="@+id/guideline_v1" app:layout_constraintEnd_toStartOf="@+id/guideline_v2" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@+id/guideline_h1" />
+        <Button style="@style/Widget.App.TicTacToeButton" android:id="@+id/button3" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toEndOf="@+id/guideline_v2" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@+id/guideline_h1" />
+
+        <Button style="@style/Widget.App.TicTacToeButton" android:id="@+id/button4" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@+id/guideline_v1" app:layout_constraintTop_toBottomOf="@+id/guideline_h1" app:layout_constraintBottom_toTopOf="@+id/guideline_h2" />
+        <Button style="@style/Widget.App.TicTacToeButton" android:id="@+id/button5" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toEndOf="@+id/guideline_v1" app:layout_constraintEnd_toStartOf="@+id/guideline_v2" app:layout_constraintTop_toBottomOf="@+id/guideline_h1" app:layout_constraintBottom_toTopOf="@+id/guideline_h2" />
+        <Button style="@style/Widget.App.TicTacToeButton" android:id="@+id/button6" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toEndOf="@+id/guideline_v2" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/guideline_h1" app:layout_constraintBottom_toTopOf="@+id/guideline_h2" />
+
+        <Button style="@style/Widget.App.TicTacToeButton" android:id="@+id/button7" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@+id/guideline_v1" app:layout_constraintTop_toBottomOf="@+id/guideline_h2" app:layout_constraintBottom_toBottomOf="parent" />
+        <Button style="@style/Widget.App.TicTacToeButton" android:id="@+id/button8" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toEndOf="@+id/guideline_v1" app:layout_constraintEnd_toStartOf="@+id/guideline_v2" app:layout_constraintTop_toBottomOf="@+id/guideline_h2" app:layout_constraintBottom_toBottomOf="parent" />
+        <Button style="@style/Widget.App.TicTacToeButton" android:id="@+id/button9" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintStart_toEndOf="@+id/guideline_v2" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/guideline_h2" app:layout_constraintBottom_toBottomOf="parent" />
+
+    </FrameLayout>
+
+    <!-- Status TextView -->
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/res"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Player X's Turn" />
+
+    <!-- Restart and Back Buttons -->
+    <Button
+        android:id="@+id/res"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/play_again_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnBackToMenu"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnBackToMenu"
-        android:layout_width="wrap_content"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="680dp"
-        android:text="返回選單"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/back_to_menu_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/res" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

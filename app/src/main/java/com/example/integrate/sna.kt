@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.os.*
 import android.view.*
+import androidx.core.content.ContextCompat
 import kotlin.random.Random
 
 // 自訂 View 來實作貪吃蛇遊戲
@@ -15,6 +16,11 @@ class SnakeView(context: Context) : View(context), Runnable {
     private val gridSize = 40                   // 每格大小
     private val handler = Handler(Looper.getMainLooper()) // 用於定時更新畫面
     private var running = true                  // 遊戲是否運行中
+
+    private val paint = Paint()
+    private val snakeColor = ContextCompat.getColor(context, R.color.snake_color)
+    private val foodColor = ContextCompat.getColor(context, R.color.snake_food_color)
+    private val backgroundColor = ContextCompat.getColor(context, R.color.snake_background)
 
     init {
         // 初始化遊戲，延遲 300ms 重複更新
@@ -57,10 +63,10 @@ class SnakeView(context: Context) : View(context), Runnable {
     // 畫面繪製
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawColor(Color.BLACK) // 背景黑色
+        canvas.drawColor(backgroundColor)
 
-        val paint = Paint().apply { color = Color.GREEN }
         // 畫蛇身
+        paint.color = snakeColor
         for (p in snake) {
             canvas.drawRect(
                 p.x * gridSize.toFloat(), p.y * gridSize.toFloat(),
@@ -69,7 +75,7 @@ class SnakeView(context: Context) : View(context), Runnable {
         }
 
         // 畫食物
-        paint.color = Color.RED
+        paint.color = foodColor
         canvas.drawRect(
             food.x * gridSize.toFloat(), food.y * gridSize.toFloat(),
             (food.x + 1) * gridSize.toFloat(), (food.y + 1) * gridSize.toFloat(), paint
@@ -127,6 +133,8 @@ class SnakeView(context: Context) : View(context), Runnable {
         val maxX = width / gridSize
         val maxY = height / gridSize
 
+        if (maxX <= 0 || maxY <= 0) return
+
         do {
             food = Point(Random.nextInt(maxX), Random.nextInt(maxY))
         } while (snake.contains(food))
@@ -137,10 +145,14 @@ class SnakeView(context: Context) : View(context), Runnable {
         snake.clear()
         val maxX = width / gridSize
         val maxY = height / gridSize
-        val startX = Random.nextInt(maxX)
-        val startY = Random.nextInt(maxY)
-
-        snake.add(Point(startX, startY)) // 蛇頭隨機生成
+        if (maxX > 0 && maxY > 0) {
+            val startX = Random.nextInt(maxX)
+            val startY = Random.nextInt(maxY)
+            snake.add(Point(startX, startY)) // 蛇頭隨機生成
+        } else {
+            // 預防萬一寬高還沒計算出來
+            snake.add(Point(0, 0))
+        }
         direction = Direction.RIGHT
         spawnFood() // 隨機生成食物
         invalidate() // 重新繪製

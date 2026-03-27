@@ -71,13 +71,13 @@ class tic_kt : AppCompatActivity() {
         // Switch 功能設定（切換先攻玩家）
         switchFirstPlayer.setOnCheckedChangeListener { _, isChecked ->
             currentPlayer = if (isChecked) "X" else "O"
-            switchFirstPlayer.text = "現在先攻圖案是 ${if (isChecked) "叉" else "圈"}"
+            switchFirstPlayer.text = if (isChecked) getString(R.string.starting_player_cross) else getString(R.string.starting_player_circle)
             resetGame() // 切換後立即重置遊戲
         }
 
         // 初始 Switch 文字與狀態
-        switchFirstPlayer.text = "現在先攻圖案是 圈"
-        statusTextView.text = "輪到玩家 $currentPlayer"
+        switchFirstPlayer.text = getString(R.string.starting_player_circle)
+        statusTextView.text = getString(R.string.player_turn, currentPlayer)
     }
 
     // 處理玩家點擊棋盤
@@ -89,18 +89,18 @@ class tic_kt : AppCompatActivity() {
 
         // 判斷勝利
         if (checkWin()) {
-            statusTextView.text = "玩家 $currentPlayer 勝利！"
+            statusTextView.text = getString(R.string.player_wins, currentPlayer)
             gameOver = true
         }
         // 判斷平手
         else if (isDraw()) {
-            statusTextView.text = "平手！"
+            statusTextView.text = getString(R.string.draw_game)
             gameOver = true
         }
         // 切換玩家
         else {
             currentPlayer = if (currentPlayer == "X") "O" else "X"
-            statusTextView.text = "輪到玩家 $currentPlayer"
+            statusTextView.text = getString(R.string.player_turn, currentPlayer)
         }
     }
 
@@ -138,7 +138,7 @@ class tic_kt : AppCompatActivity() {
 
         // 根據 Switch 狀態重設先攻玩家
         currentPlayer = if (switchFirstPlayer.isChecked) "X" else "O"
-        statusTextView.text = "遊戲重新開始，輪到玩家 $currentPlayer"
+        statusTextView.text = getString(R.string.game_restarted, currentPlayer)
     }
 
 }
